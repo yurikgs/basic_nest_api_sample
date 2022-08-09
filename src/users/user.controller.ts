@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { userDTO } from "./user.dto";
 import { UserService } from "./user.service";
 
@@ -13,7 +13,7 @@ export class UserController {
     }
 
     @Get("/:id")
-    getUser(@Param('id') id){
+    getUser(@Param("id") id){
         return this.userService.findUser(+id)
     }
 
@@ -22,9 +22,15 @@ export class UserController {
         return this.userService.createUser(body)
     }
 
-    @Put()
-    putUser(@Body() body: userDTO){
-        return this.userService.updateUser(body)
+    @Put("/:id")
+    putUser(@Param("id") id, @Body() body: userDTO){
+        
+        return this.userService.updateUser(body, +id)
+    }
+    
+    @Delete("/:id")
+    deleteUser(@Param("id") id) {
+        return this.userService.removeUser(+id)
     }
 
 }
